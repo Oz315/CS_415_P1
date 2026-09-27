@@ -3,7 +3,7 @@
 #include <cmath>
 #include <filesystem>
 #include <vector>
-
+#include <cstring>
 //Just a note for all these functions, I don't think we're exactly
 //allowed to have another parameter for counting but I'm doing it just cause its easiest
 //but the only other thing i can think of while keeping these functions
@@ -100,11 +100,27 @@ void insertionSort(int array[], int size) {
 int main() {
     int input;
     int counter = 0;
+    std::ofstream output_file;
+    output_file.open("csvs/fibonacci.csv");
+    if (!output_file.is_open()) {
+        std::cerr << "Error opening file" << std::strerror(errno);
+        return 1;
+    }
+    output_file << "n,TimeComplexity\n";
+    for (int n = 0; n < 30; n++) {
+        int temp = Fib(n, counter); //ill update this to apply the values to some array for gcd
+        output_file << n << "," << counter << "\n";
+        counter = 0; //counter is basically the time complexity, i think
+    }
+
+    output_file.close();
+    /*
     std::cout << "Please enter value for Fibonacci sequence: ";
     //there is absolutely no safety checks, implement them later
     std::cin >> input;
     std::cout << "This is the Fibonacci sequence for " << input << std::endl;
     std::cout << Fib(input, counter) << std::endl;
-    std::cout << "And the number of additions is " << counter << std::endl;
+    std::cout << "The number of additions is " << counter << std::endl;
+    */
     return 0;
 }
