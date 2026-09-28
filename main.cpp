@@ -2,7 +2,7 @@
 #include <fstream>
 #include <cmath>
 #include <filesystem>
-#include <vector>
+#include <array>
 #include <cstring>
 //Just a note for all these functions, I don't think we're exactly
 //allowed to have another parameter for counting but I'm doing it just cause its easiest
@@ -37,10 +37,7 @@ int gcd(int m, int n, int &count) {
         count++;
     }
     return m;
-
 }
-
-//don't think we have to count operations for task 2
 
 // This is exponentiation done decrease-by-one
 int dbo(int a, int n) {
@@ -98,29 +95,73 @@ void insertionSort(int array[], int size) {
 }
 // obviously need to still implement the code to test the functions
 int main() {
-    int input;
-    int counter = 0;
-    std::ofstream output_file;
-    output_file.open("csvs/fibonacci.csv");
-    if (!output_file.is_open()) {
-        std::cerr << "Error opening file" << std::strerror(errno);
+    //this N deals with the number of values we are using for Task 1
+    int mode = 0;
+    std::cout << "Which mode would you like to enter?\nType 1 for User Testing\nType 2 for Scatterplots\n";
+    std::cin >> mode;
+    if (!(mode == 1 || mode == 2)) {
+        std::cerr << "Please enter a valid Mode...\n";
         return 1;
     }
-    output_file << "n,TimeComplexity\n";
-    for (int n = 0; n < 30; n++) {
-        int temp = Fib(n, counter); //ill update this to apply the values to some array for gcd
-        output_file << n << "," << counter << "\n";
-        counter = 0; //counter is basically the time complexity, i think
-    }
+    //
+    if (mode == 1) {
+        int k = 0;
+        int a = 0;
+        int n = 0;
+        int n2 = 0;
+        int counter = 0;
+        std::cout << "\nFor Task 1, please enter a value for k for the programs Fib(k) and GCD(m, n): ";
+        std::cin >> k;
+        std::cout << "\nFor Task 2, please enter values for a and n for exponential functions (first is a, the base): ";
+        std::cin >> a;
+        std::cout << "\nNow the value for n(the power): ";
+        std::cin >> n;
+        std::cout << "\nFor Task 3, just enter a value for n for the size of the list. Ensure the value is between 10-100 with increments of 10: ";
+        std::cin >> n2;
+        if (n2 < 10 || n2 > 100 || n2 % 10 != 0) {
+            std::cerr << "Please enter a valid value for n\n";
+            return 1;
+        }
+        int gcd_input[k];
+        std::ofstream output_file;
 
-    output_file.close();
-    /*
-    std::cout << "Please enter value for Fibonacci sequence: ";
-    //there is absolutely no safety checks, implement them later
-    std::cin >> input;
-    std::cout << "This is the Fibonacci sequence for " << input << std::endl;
-    std::cout << Fib(input, counter) << std::endl;
-    std::cout << "The number of additions is " << counter << std::endl;
-    */
+        // This section is Task 1A
+        output_file.open("csvs/fibonacci.csv");
+        if (!output_file.is_open()) {
+            std::cerr << "Error opening file because: " << std::strerror(errno);
+            return 1;
+        }
+        output_file << "n,TimeComplexity\n";
+        for (int i = 0; i < k; i++) {
+            gcd_input[i] = Fib(i, counter); //ill update this to apply the values to some array for gcd
+            output_file << i << "," << counter << "\n";
+            counter = 0; //counter is basically the asmyptotic complexity
+        }
+        output_file.close();
+
+        //Now we try task 1B
+        output_file.open("csvs/gcd.csv");
+        if (!output_file.is_open()) {
+            std::cerr << "Error opening file because: " << std::strerror(errno);
+            return 1;
+        }
+        output_file << "n,TimeComplexity\n";
+
+        for (int i = 1; i+1 < k; i++) {
+            int temp = gcd(gcd_input[i+1], gcd_input[i], counter);
+            output_file << i << "," << counter << "\n";
+            counter = 0;
+        }
+
+        output_file.close();
+
+        //Here is the portion for Task 2
+
+        //Here we do Task 3
+    }
+    else { //This else is for Scatterplot mode, there technically isn't much to do here
+        //I guess we can check to make sure the necessary csv files exist
+
+    }
     return 0;
 }

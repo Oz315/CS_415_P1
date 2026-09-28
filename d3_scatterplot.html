@@ -4,15 +4,16 @@
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v4.js"></script>
 
+<h2> Task 1: Fibonacci & GCD</h2>
 <!-- Create a div where the graph will take place -->
 <div id="my_dataviz"></div>
 
 <script>
 
     // set the dimensions and margins of the graph
-    var margin = {top: 10, right: 30, bottom: 30, left: 60},
-        width = 460 - margin.left - margin.right,
-        height = 400 - margin.top - margin.bottom;
+    var margin = {top: 30, right: 30, bottom: 60, left: 60},
+        width = 560 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
     var svg = d3.select("#my_dataviz")
@@ -46,7 +47,7 @@
             .attr("text-anchor", "middle")
             .attr("x", width/2 + margin.left)
             .attr("y", height + margin.top + 20)
-            .text("n");
+            .text("k (Input Size)");
 
         // Y axis label:
         svg.append("text")
@@ -62,6 +63,7 @@
             .append("div")
             .style("opacity", 0)
             .attr("class", "tooltip")
+            .style("position", "absolute")
             .style("background-color", "white")
             .style("border", "solid")
             .style("border-width", "1px")
@@ -79,7 +81,7 @@
 
         var mousemove = function(d) {
             tooltip
-                .html("At n=" + d.n + " the number<bk>of operations is " + d.TimeComplexity)
+                .html("At k=" + d.n + " the number<br>of operations is " + d.TimeComplexity)
                 .style("left", (d3.mouse(this)[0]+90) + "px") // It is important to put the +90: other wise the tooltip is exactly where the point is an it creates a weird effect
                 .style("top", (d3.mouse(this)[1]) + "px")
         }
@@ -91,6 +93,17 @@
                 .duration(200)
                 .style("opacity", 0)
         }
+
+        // Add the line
+        svg.append("path")
+            .datum(data)
+            .attr("fill", "none")
+            .attr("stroke", "#69b3a2")
+            .attr("stroke-width", 1.5)
+            .attr("d", d3.line()
+                .x(function(d) { return x(d.n) })
+                .y(function(d) { return y(d.TimeComplexity) })
+            )
 
         // Add dots
         svg.append('g')
