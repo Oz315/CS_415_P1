@@ -110,13 +110,13 @@ int main() {
         int n = 0;
         int n2 = 0;
         int counter = 0;
-        std::cout << "\nFor Task 1, please enter a value for k for the programs Fib(k) and GCD(m, n): ";
+        std::cout << "For Task 1, please enter a value for k for the programs Fib(k) and GCD(m, n): ";
         std::cin >> k;
-        std::cout << "\nFor Task 2, please enter values for a and n for exponential functions (first is a, the base): ";
+        std::cout << "For Task 2, please enter values for a and n for exponential functions (first is a, the base): ";
         std::cin >> a;
-        std::cout << "\nNow the value for n(the power): ";
+        std::cout << "Now the value for n(the power): ";
         std::cin >> n;
-        std::cout << "\nFor Task 3, just enter a value for n for the size of the list. Ensure the value is between 10-100 with increments of 10: ";
+        std::cout << "For Task 3, just enter a value for n for the size of the list. Ensure the value is between 10-100 with increments of 10: ";
         std::cin >> n2;
         if (n2 < 10 || n2 > 100 || n2 % 10 != 0) {
             std::cerr << "Please enter a valid value for n\n";

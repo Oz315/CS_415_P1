@@ -24,6 +24,14 @@ Fibonacci,21,0,17710
 Fibonacci,22,0,28656
 Fibonacci,23,0,46367
 Fibonacci,24,0,75024
+Fibonacci,25,0,121392
+Fibonacci,26,0,196417
+Fibonacci,27,0,317810
+Fibonacci,28,0,514228
+Fibonacci,29,0,832039
+Fibonacci,30,0,1346268
+Fibonacci,31,0,2178308
+Fibonacci,32,0,3524577
 GCD,1,0,1
 GCD,2,0,1
 GCD,3,0,2
@@ -47,3 +55,11 @@ GCD,20,0,19
 GCD,21,0,20
 GCD,22,0,21
 GCD,23,0,22
+GCD,24,0,23
+GCD,25,0,24
+GCD,26,0,25
+GCD,27,0,26
+GCD,28,0,27
+GCD,29,0,28
+GCD,30,0,29
+GCD,31,0,30
