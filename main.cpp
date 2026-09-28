@@ -126,30 +126,21 @@ int main() {
         std::ofstream output_file;
 
         // This section is Task 1A
-        output_file.open("csvs/fibonacci.csv");
+        output_file.open("csvs/fibonacci_gcd.csv");
         if (!output_file.is_open()) {
             std::cerr << "Error opening file because: " << std::strerror(errno);
             return 1;
         }
-        output_file << "n,TimeComplexity\n";
+        output_file << "impl,N,elapsed_ms,ops_total\n";
         for (int i = 0; i < k; i++) {
             gcd_input[i] = Fib(i, counter); //ill update this to apply the values to some array for gcd
-            output_file << i << "," << counter << "\n";
+            output_file << "Fibonacci," << i << ",0," << counter << "\n";
             counter = 0; //counter is basically the asmyptotic complexity
         }
-        output_file.close();
-
         //Now we try task 1B
-        output_file.open("csvs/gcd.csv");
-        if (!output_file.is_open()) {
-            std::cerr << "Error opening file because: " << std::strerror(errno);
-            return 1;
-        }
-        output_file << "n,TimeComplexity\n";
-
         for (int i = 1; i+1 < k; i++) {
             int temp = gcd(gcd_input[i+1], gcd_input[i], counter);
-            output_file << i << "," << counter << "\n";
+            output_file << "GCD," << i << ",0," << counter << "\n";
             counter = 0;
         }
 
