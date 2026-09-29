@@ -1,5 +1,4 @@
 impl,N,elapsed_ms,ops_total
-Fibonacci,0,0,0
 Fibonacci,1,0,0
 Fibonacci,2,0,1
 Fibonacci,3,0,2

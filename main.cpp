@@ -226,6 +226,60 @@ bool readFile(string filename, vector<int> &array) {
     return true;
 }
 
+// Scatter plot mode for Task 2
+void task2ScatterMode() {
+    // File that will store the results for the graph
+    ofstream outputFile("csvs/task2.csv");
+
+    // Make sure the output file opened correctly
+    if (!outputFile) {
+        cout << "Unable to create task2.csv" << endl;
+        return;
+    }
+
+    // Column names expected by the HTML graph
+    outputFile << "impl,N,elapsed_ms,ops_total" << endl;
+
+    // Use a constant base for all three algorithms
+    // Base 1 avoids overflow since we only need the multiplication counts
+    long long a = 1;
+
+    // Test powers of 2 from 1 through 1024
+    for (int n = 1; n <= 1024; n *= 2) {
+        long long dboCounter = 0;
+        long long dbcfCounter = 0;
+        long long dacCounter = 0;
+
+        // Run all three exponentiation algorithms
+        dbo(a, n, dboCounter);
+        dbcf(a, n, dbcfCounter);
+        dac(a, n, dacCounter);
+
+        // The 0 is for elapsed_ms because we are only counting basic operations
+
+        outputFile << "decrease_by_one,"
+                   << n << ",0,"
+                   << dboCounter << endl;
+
+        outputFile << "decrease_by_constant_factor,"
+                   << n << ",0,"
+                   << dbcfCounter << endl;
+
+        outputFile << "divide_and_conquer,"
+                   << n << ",0,"
+                   << dacCounter << endl;
+
+        // Shows progress while the program is running
+        cout << "Finished Task 2 n = " << n << endl;
+    }
+
+    outputFile.close();
+
+    cout << endl;
+    cout << "Task 2 scatter mode finished." << endl;
+    cout << "Created task2.csv" << endl;
+}
+
 // User testing mode for Task 3
 void task3UserTesting() {
     int n;
@@ -246,7 +300,7 @@ void task3UserTesting() {
     }
 
     // Build the name of the smallSet file using the size entered
-    string filename = "smallSet/data" + to_string(n) + ".txt";
+    string filename = "data/smallSet/data" + to_string(n) + ".txt";
 
     // Store the original numbers read from the file
     vector<int> originalArray;
@@ -462,55 +516,39 @@ int main() {
         cin >> a;
         cout << "Now the value for n(the power): ";
         cin >> n;
-        cout << "For Task 3, just enter a value for n for the size of the list. Ensure the value is between 10-100 with increments of 10: ";
-        cin >> n2;
-        if (n2 < 10 || n2 > 100 || n2 % 10 != 0) {
-            cerr << "Please enter a valid value for n\n";
-            return 1;
-        }
-        long long gcd_input[k];
-        ofstream output_file;
 
         // This section is Task 1A
-        output_file.open("csvs/fibonacci_gcd.csv");
-        if (!output_file.is_open()) {
-            cerr << "Error opening file because: " << strerror(errno);
-            return 1;
-        }
-        long long temp = 0;
-        output_file << "impl,N,elapsed_ms,ops_total\n";
+        long long gcd_input[k];
         for (int i = 0; i < k; i++) {
-            temp = fib(i, counter); //ill update this to apply the values to some array for gcd
-            gcd_input[i] = temp;
-            output_file << "Fibonacci," << i << ",0," << counter << "\n";
-            counter = 0; //counter is basically the asmyptotic complexity
-        }
-        //At this point temp should be holding the proper fib(k) value so we print it
-        cout << "Fib(" << k << ") = " << temp << "\n";
-        //Now we try task 1B
-        for (int i = 1; i+1 < k; i++) {
-            temp = gcd(gcd_input[i+1], gcd_input[i], counter);
-            output_file << "GCD," << i << ",0," << counter << "\n";
+            gcd_input[i] = fib(i, counter); //Need to save these values for GCD
             counter = 0;
         }
-        cout << "GCD(Fib(" << k << "+1), Fib(" << k << ") = " << temp << "\n\n";
+        // k-1 should be holding the last value user wanted
+        cout << "Fib(" << k << ") = " << gcd_input[k-1] << "\n";
 
-        output_file.close();
+        //Now we try task 1B
+        long long temp = 0; //Only need temp to hold the final value of GCD, better to do it this way than calculate GCD again
+        for (int i = 1; i+1 < k; i++) {
+            temp = gcd(gcd_input[i+1], gcd_input[i], counter);
+            counter = 0;
+        }
+        cout << "GCD(Fib(" << k + 1 << "), Fib(" << k << ") = " << temp << "\n\n";
 
+        // Task 2 Begins
         // Test decrease-by-one
-        cout << "Decrease-by-one: " << dbo(2, 5, dboCounter) << endl;
+        cout << "Decrease-by-one: " << dbo(a, n, dboCounter) << endl;
         cout << "Multiplications: " << dboCounter << endl;
 
         cout << endl;
 
         // Test decrease-by-constant-factor
-        cout << "Decrease-by-constant-factor: " << dbcf(2, 5, dbcfCounter) << endl;
+        cout << "Decrease-by-constant-factor: " << dbcf(a, n, dbcfCounter) << endl;
         cout << "Multiplications: " << dbcfCounter << endl;
 
         cout << endl;
 
         // Test divide-and-conquer
-        cout << "Divide-and-conquer: " << dac(2, 5, dacCounter) << endl;
+        cout << "Divide-and-conquer: " << dac(a, n, dacCounter) << endl;
         cout << "Multiplications: " << dacCounter << endl;
 
         cout << endl;
@@ -555,12 +593,43 @@ int main() {
         cout << "Comparisons: " << insertionCounter << endl;
 
         // Run Task 3 user testing mode
-        //   task3UserTesting();
-        task3ScatterMode();
+        task3UserTesting();
     }
-    else { //This else is for Scatterplot mode, there technically isn't much to do here
-        //I guess we can check to make sure the necessary csv files exist
+    else {
+        cout << "Please wait as the scatterplot data is being made...\n";
 
+        // This section is Task 1 Scatterplot
+        ofstream output_file;
+        output_file.open("csvs/fibonacci_gcd.csv");
+
+        if (!output_file.is_open()) {
+            cerr << "Error opening file because: " << strerror(errno);
+            return 1;
+        }
+        int k = 32; //
+        long long gcd_input[k];
+        int counter = 0;
+        output_file << "impl,N,elapsed_ms,ops_total\n";
+        for (int i = 1; i < k; i++) { // We start from 1 here because otherwise the graph gets a weird offset by 1, because of Fibonacci's two base cases
+            gcd_input[i] = fib(i, counter);
+            output_file << "Fibonacci," << i << ",0," << counter << "\n";
+            counter = 0;
+        }
+
+        //Now the same but for GCD
+        for (int i = 1; i+1 < k; i++) {
+            gcd(gcd_input[i+1], gcd_input[i], counter); //We only need the basic operations which is tracked by counter, the GCD return value is meaningless here
+            output_file << "GCD," << i << ",0," << counter << "\n";
+            counter = 0;
+        }
+        output_file.close();
+
+
+        // Task 2
+        task2ScatterMode();
+
+        // Task 3
+        task3ScatterMode();
     }
     return 0;
 }
