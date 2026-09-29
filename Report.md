@@ -1,5 +1,6 @@
 # Report For Task 1
 Task 1 - Fibonacci & GCD <br>
+Fibonacci(k) is treated as A(k) and GCD is D(n). The graph on the x-axis shows the value of k and n for both GCD and Fibonacci. The y-axis is the number of basic operations committed at each value of n, with Fibonacci counting additions and GCD counting divisions.
 Fibonacci turned out to work as Fibonacci is expected to, exponential growth. With k=16 being the point it surpasses 1000 additions. In fact the number of basic operations matches
 near exactly with the function provided to us being ϕ^n/sqrt(5). Though it seems to be a bit off instead calculating the prior n value instead. This is likely because way the two base
 cases, 0 and 1 are being treated. But the values do match. On a similar note, Θ(ϕ^n) for this recursive algorithm of the Fibonacci sequence. Since we are doing it recursively,
