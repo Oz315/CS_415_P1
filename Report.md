@@ -9,9 +9,9 @@ never seemed to go higher than n-1 divisions. Leaving behind a linear growth whi
 In essence, both functions did turn exactly as I expected them to.
 I also chose a rather small value of k = 32 because even at such a low value the pattern between the two functions becomes apparent. <br>
 The results were: <br>
-Algorithm	                   Complexity <br>
-Fibonacci               	      Θ(ϕ^n) <br>
-GCD (Worst Case)    	          Θ(n) <br>
+Algorithm	- Complexity <br>
+Fibonacci - Θ(ϕ^n) <br>
+GCD (Worst Case) - Θ(n) <br>
 
 # Report For Task 2
 Task 2 – Exponentiation
