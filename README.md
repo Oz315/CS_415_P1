@@ -6,3 +6,5 @@ Shakira Garcia
 
 
 # Instructions
+COMPILE:
+RUN:

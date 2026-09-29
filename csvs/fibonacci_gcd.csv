@@ -31,7 +31,6 @@ Fibonacci,28,0,514228
 Fibonacci,29,0,832039
 Fibonacci,30,0,1346268
 Fibonacci,31,0,2178308
-Fibonacci,32,0,3524577
 GCD,1,0,1
 GCD,2,0,1
 GCD,3,0,2
@@ -62,4 +61,3 @@ GCD,27,0,26
 GCD,28,0,27
 GCD,29,0,28
 GCD,30,0,29
-GCD,31,0,30
